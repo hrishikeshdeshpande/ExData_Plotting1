@@ -11,16 +11,18 @@ ExtrPowData<- subset(powerData,
                      )
                     ) 
                      
-# create Plot and save to plot1.png
-   
-png("plot1.png", width=480, height= 480) 
+# change the date column to date/time class
 
-hist(ExtrPowData$Global_active_power, 
-     col= "red", xlab= "Global Active Power (kilowatts)", 
-     ylab= "Frequency", main= "Global Active Power")
+ExtrPowData$Date <- as.Date(ExtrPowData$Date, format = "%d/%m/%Y")
 
-dev.off()                     
-                   
+ExtrPowData$DateTime <- as.POSIXct(paste(ExtrPowData$Date, ExtrPowData$Time))
+
+# create Plot and save to plot2.png
                      
+png("plot2.png", width=480, height= 480)
+
+plot(ExtrPowData$DateTime, 
+     ExtrPowData$Global_active_power, 
+     ylab= "Global Active Power (kilowatts)", xlab= "", type="l",lwd=1)
                      
-                    
+dev.off()
